@@ -1,5 +1,4 @@
 from torch import nn, optim 
-from torch.nn.modules import fold
 from torch.utils.data import DataLoader
 from models.discriminator import Discriminator
 from configs import config
@@ -47,18 +46,19 @@ def main():
     if config.LOAD_MODEL:
         load_checkpoint(config.CHECKPOINT_GEN,gen,opt_gen,config.LEARNING_RATE)
         load_checkpoint(config.CHECKPOINT_DISC,disc,opt_disc,config.LEARNING_RATE)
-        train_dataset = MapDataset(root_dir=config.TRAIN_DIR)
-        train_loader = DataLoader(train_dataset,batch_size=config.BATCH_SIZE,shuffle=True,num_workers=config.NUM_WORKERS)
-        g_scaler = torch.cuda.amp.GradScaler()
-        d_scaler = torch.cuda.ap.GradScaler()
-        val_dataset = MapDataset(root_dir=config.VAL_DIR)
-        val_loader = DataLoader(val_dataset,batch_size=1,shuffle=False)
-        for epoch in range(config.NUM_EPOCHS):
-            train(disc,gen,train_loader,opt_disc,opt_gen,L1_LOSS,BCE,g_scaler,d_scaler)
-            if epoch%5==0:
-                save_checkpoint(gen,opt_gen,filename=config.CHECKPOINT_GEN)
-                save_checkpoint(disc,opt_disc,filename=config.CHECKPOINT_DISC)
-            save_some_examples(gen,val_loader,epoch,folder="evaluation")
+    train_dataset = MapDataset(root_dir=config.TRAIN_DIR)
+
+    train_loader = DataLoader(train_dataset,batch_size=config.BATCH_SIZE,shuffle=True,num_workers=config.NUM_WORKERS)
+    g_scaler = torch.cuda.amp.GradScaler()
+    d_scaler = torch.cuda.amp.GradScaler()
+    val_dataset = MapDataset(root_dir=config.VAL_DIR)
+    val_loader = DataLoader(val_dataset,batch_size=1,shuffle=False)
+    for epoch in range(config.NUM_EPOCHS):
+        train(disc,gen,train_loader,opt_disc,opt_gen,L1_LOSS,BCE,g_scaler,d_scaler)
+        if epoch%5==0:
+            save_checkpoint(gen,opt_gen,filename=config.CHECKPOINT_GEN)
+            save_checkpoint(disc,opt_disc,filename=config.CHECKPOINT_DISC)
+        save_some_examples(gen,val_loader,epoch,folder="evaluation")
 
 if __name__ == "__main__":
     main()

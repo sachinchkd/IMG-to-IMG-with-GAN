@@ -14,10 +14,12 @@ class MapDataset(Dataset):
     def __getitem__(self,index):
         img_file = self.list_files[index]
         img_path = os.path.join(self.root_dir,img_file)
-        image = np.array(Image.open(img_path))
-        w = image.size
-        input_image = image[:,:600,:]
-        target_image = image[:,600:,:]
+        image_data = Image.open(img_path)
+        image = np.array(image_data)
+        w = image_data.width
+        w = w//2
+        input_image = image[:,:w,:]
+        target_image = image[:,w:,:]
         augmentations = config.both_transform(image=input_image,image0=target_image)
         input_image ,target_image =augmentations["image"],augmentations["image0"]
         input_image = config.transform_only_input(image=input_image)["image"]
