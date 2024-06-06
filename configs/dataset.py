@@ -2,7 +2,8 @@ from PIL import Image
 import numpy as np
 import os
 from torch.utils.data import Dataset
-import config
+
+import configs.config as config 
 class MapDataset(Dataset):
     def __init__(self,root_dir):
         self.root_dir = root_dir
@@ -14,6 +15,7 @@ class MapDataset(Dataset):
         img_file = self.list_files[index]
         img_path = os.path.join(self.root_dir,img_file)
         image = np.array(Image.open(img_path))
+        w = image.size
         input_image = image[:,:600,:]
         target_image = image[:,600:,:]
         augmentations = config.both_transform(image=input_image,image0=target_image)
