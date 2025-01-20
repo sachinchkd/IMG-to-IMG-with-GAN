@@ -6,23 +6,23 @@ A deep learning project that uses Conditional Generative Adversarial Networks (G
 - Shoe sketches to photorealistic images
 - Anime sketches to colorized images
 
-## Examples
+## Outputs
 
 ### Edge to Shoes Translation
 ![Edge to Shoes](screenshots/edge.png)
-Transform simple shoe outlines into photorealistic shoe images.
+<br>Transform simple shoe outlines into photorealistic shoe images.
 
 ### Cityscape Semantic Segmentation
 ![Cityscape Translation](screenshots/city.png)
-Convert urban photographs into semantic segmentation maps.
+<br>Convert urban photographs into semantic segmentation maps.
 
 ### Satellite to Map Translation
 ![Satellite to Map](screenshots/map.png)
-Transform satellite imagery into map representations.
+<br>Transform satellite imagery into map representations.
 
 ### Anime Sketch Colorization
 ![Anime Colorization](screenshots/art.png)
-Convert black and white anime sketches into fully colorized images.
+<br>Convert black and white anime sketches into fully colorized images.
 
 ## Features
 - Multiple domain translations supported in a single application
